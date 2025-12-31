@@ -81,7 +81,11 @@ export class RestLessServer {
         if (request.body) {
             // TODO: not as robust as body-parser middleware,
             // but body-parser only compatible with request streams, and req stream is exhausted by now
-            const contentType = request.headers["content-type"]?.toLowerCase();
+            const contentType = request.headers["content-type"]?.toLowerCase() ?? "";
+            // If middleware already parsed the body (object/array), don't parse again.
+            if (typeof request.body !== "string") {
+                return;
+            }
             if (contentType.includes("application/json")) {
                 try {
                     request.body = JSON.parse(request.body);

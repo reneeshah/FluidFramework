@@ -292,7 +292,7 @@ export interface ISummarizerNode {
 // @public (undocumented)
 export interface ISummarizerNodeConfig {
     readonly canReuseHandle?: boolean;
-    readonly throwOnFailure?: true;
+    readonly throwOnFailure?: boolean;
 }
 
 // @public (undocumented)
