@@ -56,12 +56,17 @@ function oidToCommitHash(oid: git.Oid): resources.ICommitHash {
 /**
  * Helper function to decode externalstorage read params
  */
-export function getReadParams(params): IGetRefParamsExternal | undefined {
-    if (params) {
-        const getRefParams: IGetRefParamsExternal = JSON.parse(decodeURIComponent(params));
-        return getRefParams;
+export function getReadParams(params: unknown): IGetRefParamsExternal | undefined {
+    if (typeof params !== "string" || params.length === 0) {
+        return undefined;
     }
-    return undefined;
+    try {
+        const decoded = decodeURIComponent(params);
+        return JSON.parse(decoded) as IGetRefParamsExternal;
+    } catch (error) {
+        winston.warn(`Invalid read params in querystring: ${params}`);
+        return undefined;
+    }
 }
 
 /**
