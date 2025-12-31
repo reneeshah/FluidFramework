@@ -482,7 +482,9 @@ export class SummarizerNode implements IRootSummarizerNode {
         // BUGBUG: Seeing issues with differential summaries.
         // this will disable them, and throw instead
         // while we continue to investigate
-        this.throwOnError = true; // config.throwOnFailure ?? false;
+        // Default to throwing on failure while differential summaries are under investigation.
+        // Still honor config when explicitly provided.
+        this.throwOnError = config.throwOnFailure ?? true;
         this.trackingSequenceNumber = this._changeSequenceNumber;
     }
 
